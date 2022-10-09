@@ -32,7 +32,15 @@ def step_impl(context):
 @then(u'User must successfully login the Dashboard page')
 def step_impl(context):
     time.sleep(1)
+    try:
+        PIM_text = context.driver.find_element(By.XPATH,
+                                       "//*[@id='app']/div[1]/div[1]/header/div[1]/div[1]/span/h6").text
+        context.driver.close()
+        assert PIM_text == "PIM"
+    except:
+        invalid_credentials_warning = context.driver.find_element(By.XPATH,
+                                       "//*[@id='app']/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p").text
+        context.driver.close()
+        assert invalid_credentials_warning == "Invalid credentials"
 
-    assert context.driver.find_element(By.XPATH,
-                                       "//*[@id='app']/div[1]/div[1]/header/div[1]/div[1]/span/h6").text == "PIM"
-    context.driver.close()
+
